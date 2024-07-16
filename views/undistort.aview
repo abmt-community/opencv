@@ -1,0 +1,15 @@
+{
+  "type": "list",
+  "elements": [
+    {
+      "type": "list_hz",
+      "elements": [
+        {"type":"image","scale":true,"width":728.3253968253968,"height":692,"signal":"undistort.in_img"},{"type":"image","scale":true,"width":726.6746031746031,"height":692,"signal":"undistort.out_img"}
+      ],
+      "width": 1511,
+      "height": 692
+    }
+  ],
+  "width": 1511,
+  "height": 919
+}

@@ -1,0 +1,180 @@
+{
+  "model_is_node": false,
+  "nodes": [
+    {
+      "name": "webcam",
+      "type": "class",
+      "cfg": {"class":"webcam","prj":"io","device":"/dev/video4","fmt_jpeg":false,"width":"640","height":"480","half_framerate":false},
+      "pos": {"x":-1027,"y":226},
+      "rotate": false,
+      "comment_out": false
+    },{"name":"axis","type":"class","cfg":{"class":"axis","prj":"scene3d","len":"1.0"},"pos":{"x":1097,"y":-582},"rotate":false,"comment_out":false},{
+      "name": "expression_1",
+      "type": "expression",
+      "cfg": {"function":"b*a","output_name":"out","output_type":"auto","type_header":"","disable_output":false},
+      "pos": {"x":1428,"y":-508},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"a":{"node":"axis","pin":"sc"},"b":{"node":"inverse_pose","pin":"out"}},
+      "default_values": {"a":"","b":""}
+    },{
+      "name": "comp",
+      "type": "expression",
+      "cfg": {"function":"b+a+c","output_name":"out","output_type":"auto","type_header":"","disable_output":false},
+      "pos": {"x":1870,"y":-433},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"a":{"node":"expression_1","pin":"out"},"b":{"node":"grid_xy","pin":"sc"},"c":{"node":"ax_base","pin":"sc"}},
+      "default_values": {"a":"","b":"","c":""}
+    },{
+      "name": "rotate_3",
+      "type": "class",
+      "cfg": {"class":"rotate","prj":"scene3d"},
+      "pos": {"x":1849,"y":-838},
+      "rotate": false,
+      "comment_out": false,
+      "default_values": {"ang":"-3.1415926535/2","vec":"{1,0,0}"}
+    },{
+      "name": "rotate_4",
+      "type": "class",
+      "cfg": {"class":"rotate","prj":"scene3d"},
+      "pos": {"x":1849,"y":-697},
+      "rotate": false,
+      "comment_out": false,
+      "default_values": {"ang":"-3.1415926535/2","vec":"{0,1,0}"}
+    },{
+      "name": "nwu2gl",
+      "type": "expression",
+      "cfg": {"function":"ry*rx*sc","output_name":"out","output_type":"auto","type_header":"","disable_output":false},
+      "pos": {"x":2196,"y":-713},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"rx":{"node":"rotate_3","pin":"pose"},"ry":{"node":"rotate_4","pin":"pose"},"sc":{"node":"comp","pin":"out"}},
+      "default_values": {"rx":"","ry":"","sc":""}
+    },{
+      "name": "sc",
+      "type": "expression",
+      "cfg": {"function":"sc","output_name":"out","output_type":"auto","type_header":"","disable_output":false},
+      "pos": {"x":2513,"y":-698},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"sc":{"node":"nwu2gl","pin":"out"}},
+      "default_values": {"sc":""}
+    },{
+      "name": "draw_frame_axis",
+      "type": "class",
+      "cfg": {"class":"draw_frame_axis","prj":"opencv","cam":"{\"../cam_undist.json\"}","len":"0.05","thickness":"3"},
+      "pos": {"x":1464,"y":311},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"rvec":{"node":"solve_pnp","pin":"rvec"},"tvec":{"node":"solve_pnp","pin":"tvec"},"in_img":{"node":"undistort","pin":"out_img"}},
+      "default_values": {"rvec":"","tvec":"","in_img":""}
+    },{
+      "name": "solve_pnp",
+      "type": "class",
+      "cfg": {"class":"solve_pnp","prj":"opencv","cam":"{\"../cam_undist.json\"}"},
+      "pos": {"x":353,"y":-126},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"points_img":{"node":"find_chessboard","pin":"corners_img"},"points_obj":{"node":"find_chessboard","pin":"corners_obj"}},
+      "default_values": {"points_img":"","points_obj":""}
+    },{
+      "name": "grid_xy",
+      "type": "class",
+      "cfg": {"class":"grid_xy","prj":"scene3d","step_size":"1.0","steps_x":"10","steps_y":"10","z":"-0.001"},
+      "pos": {"x":1434,"y":-310},
+      "rotate": false,
+      "comment_out": false
+    },{"name":"ax_base","type":"class","cfg":{"class":"axis","prj":"scene3d","len":"1.0"},"pos":{"x":1442,"y":-172},"rotate":false,"comment_out":false},{
+      "name": "undistort",
+      "type": "class",
+      "cfg": {"class":"undistort","prj":"opencv","cam_json":"../cam.json","cam_json_new":"../cam_undist.json"},
+      "pos": {"x":-461,"y":228},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"in_img":{"node":"to_rgb","pin":"img"}},
+      "default_values": {"in_img":""}
+    },{
+      "name": "to_rgb",
+      "type": "expression",
+      "cfg": {"function":"conv","output_name":"img","output_type":"abmt::img_rgb","type_header":"abmt/img.h","disable_output":false},
+      "pos": {"x":-709,"y":210},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"conv":{"node":"webcam","pin":"img"}},
+      "default_values": {"conv":""}
+    },{
+      "name": "find_chessboard",
+      "type": "class",
+      "cfg": {
+        "class": "find_chessboard",
+        "prj": "opencv",
+        "rows": "8",
+        "cols": "6",
+        "chess_n_elems_x": "8",
+        "chess_n_elems_y": "6",
+        "sub_pix_size": "11",
+        "chess_elem_len": "0.025"
+      },
+      "pos": {"x":-118,"y":-128},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"img":{"node":"undistort","pin":"out_img"}},
+      "default_values": {"img":""}
+    },{
+      "name": "world_2_img",
+      "type": "class",
+      "cfg": {"class":"world_2_img","prj":"opencv","cam":"{\"../cam_undist.json\"}"},
+      "pos": {"x":799,"y":718},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"world":{"node":"solve_pnp","pin":"pose"}},
+      "default_values": {"in":"{0.175, 0.125, 0}","world":""}
+    },{
+      "name": "test",
+      "type": "expression",
+      "cfg": {"function":"img.draw_cross(v, {255,0,0}, 3)","output_name":"out","output_type":"auto","type_header":"","disable_output":true},
+      "pos": {"x":1463,"y":610},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"img":{"node":"to_rgb_1","pin":"img_rgb"},"v":{"node":"world_2_img","pin":"out"}},
+      "default_values": {"img":"","v":""}
+    },{
+      "name": "to_rgb_1",
+      "type": "expression",
+      "cfg": {"function":"img","output_name":"img_rgb","output_type":"abmt::img_rgb","type_header":"","disable_output":false},
+      "pos": {"x":-68,"y":447},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"img":{"node":"undistort","pin":"out_img"}},
+      "default_values": {"img":""}
+    },{
+      "name": "inverse_pose",
+      "type": "class",
+      "cfg": {"class":"inverse_pose","prj":"opencv"},
+      "pos": {"x":742,"y":-436},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"in":{"node":"solve_pnp","pin":"pose"}},
+      "default_values": {"in":""}
+    },{
+      "name": "test_1",
+      "type": "expression",
+      "cfg": {"function":"img.draw_cross({320,240}, {255,255,0}, 3)","output_name":"out","output_type":"auto","type_header":"","disable_output":true},
+      "pos": {"x":1460,"y":468},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"img":{"node":"to_rgb_1","pin":"img_rgb"}},
+      "default_values": {"img":""}
+    },{
+      "name": "img2plane",
+      "type": "class",
+      "cfg": {"class":"img2plane","prj":"opencv","cam":"{\"../cam_undist.json\"}","plane_normal":"{0,0,1}","plane_point":"{0,0,0}"},
+      "pos": {"x":1455,"y":141},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"w2c":{"node":"solve_pnp","pin":"pose"},"c2w":{"node":"inverse_pose","pin":"out"}},
+      "default_values": {"in":"{320,240}","w2c":"","c2w":""}
+    }
+  ]
+}

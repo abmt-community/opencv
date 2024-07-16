@@ -1,0 +1,20 @@
+{
+  "model": "calib_play",
+  "runtime": "sim",
+  "runtime_configs": {
+    "sim": {
+      "start_time": "../rec/calib/cam.arec",
+      "stop_time": "60",
+      "speed": "0",
+      "cpp_flags": "-std=c++17 -O3 -g",
+      "ld_flags": "",
+      "inc_path": [
+        "/usr/include/opencv4"
+      ],
+      "ld_path": [
+      ],
+      "libs": [
+      ]
+    }
+  }
+}

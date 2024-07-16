@@ -1,0 +1,48 @@
+{
+  "model_is_node": false,
+  "nodes": [
+    {
+      "name": "webcam",
+      "type": "class",
+      "cfg": {"class":"webcam","prj":"io","device":"/dev/video0","fmt_jpeg":true,"width":"640","height":"480","half_framerate":true},
+      "pos": {"x":-567,"y":-207},
+      "rotate": false,
+      "comment_out": false
+    },{
+      "name": "use_img",
+      "type": "base",
+      "cfg": {"node":"parameter","data_type":"double","default":0,"type_header":""},
+      "pos": {"x":-567,"y":-30},
+      "rotate": false,
+      "comment_out": false
+    },{
+      "name": "record_img",
+      "type": "class",
+      "cfg": {"class":"record","prj":"record_playback","filename":"cam.arec","dir":"../rec/calib2"},
+      "pos": {"x":314,"y":-228},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"in":{"node":"webcam","pin":"img"}},
+      "default_values": {"in":""}
+    },{
+      "name": "record_use",
+      "type": "class",
+      "cfg": {"class":"record","prj":"record_playback","filename":"use.arec","dir":"../rec/calib2"},
+      "pos": {"x":315,"y":-31},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"in":{"node":"edge_detect","pin":"out"}},
+      "raster": "a_webcam",
+      "default_values": {"in":""}
+    },{
+      "name": "edge_detect",
+      "type": "class",
+      "cfg": {"class":"edge_detect","prj":"control","rising":true,"falling":false},
+      "pos": {"x":-173,"y":-13},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"in":{"node":"use_img","pin":"value"}},
+      "default_values": {"in":"0"}
+    }
+  ]
+}

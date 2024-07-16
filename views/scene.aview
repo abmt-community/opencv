@@ -1,0 +1,16 @@
+{
+  "type": "list",
+  "elements": [
+    {
+      "type": "3d",
+      "antialias": false,
+      "enable_fxaa": false,
+      "cam": "{\"px\":-3.642,\"py\":3.026,\"pz\":1.561,\"tx\":-0.697,\"ty\":-0.001,\"tz\":-1.288}",
+      "signal": "sc.out",
+      "width": 1511,
+      "height": 353
+    },{"type":"image","scale":true,"signal":"draw_frame_axis.out_img","width":1511,"height":295}
+  ],
+  "width": 1511,
+  "height": 919
+}

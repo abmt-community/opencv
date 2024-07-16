@@ -1,0 +1,49 @@
+{
+  "model_is_node": false,
+  "nodes": [
+    {
+      "name": "webcam",
+      "type": "class",
+      "cfg": {"class":"webcam","prj":"io","device":"/dev/video4","fmt_jpeg":false,"width":"640","height":"480","half_framerate":false},
+      "pos": {"x":-690,"y":-228},
+      "rotate": false,
+      "comment_out": false
+    },{
+      "name": "undistort",
+      "type": "class",
+      "cfg": {"class":"undistort","prj":"opencv","cam_json":"../cam.json","cam_json_new":"../cam_undist.json"},
+      "pos": {"x":-75,"y":-225},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"in_img":{"node":"expression","pin":"out"}},
+      "default_values": {"in_img":""}
+    },{
+      "name": "expression",
+      "type": "expression",
+      "cfg": {"function":"img","output_name":"out","output_type":"abmt::img_rgb","type_header":"","disable_output":false},
+      "pos": {"x":-344,"y":-241},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"img":{"node":"webcam","pin":"img"}},
+      "default_values": {"img":""}
+    },{
+      "name": "solve_pnp",
+      "type": "class",
+      "cfg": {"class":"solve_pnp","prj":"opencv","cam":"{\"../cam_undist.json\"}"},
+      "pos": {"x":684,"y":-223},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"points_img":{"node":"find_chessboard","pin":"corners_img"},"points_obj":{"node":"find_chessboard","pin":"corners_obj"}},
+      "default_values": {"points_img":"","points_obj":""}
+    },{
+      "name": "find_chessboard",
+      "type": "class",
+      "cfg": {"class":"find_chessboard","prj":"opencv","chess_n_elems_x":"8","chess_n_elems_y":"6","chess_elem_len":"0.025","sub_pix_size":"11"},
+      "pos": {"x":217,"y":-225},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"img":{"node":"undistort","pin":"out_img"}},
+      "default_values": {"img":""}
+    }
+  ]
+}

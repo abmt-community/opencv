@@ -1,0 +1,20 @@
+{
+  "type": "list",
+  "elements": [
+    {"type":"image","scale":true,"signal":"draw_points.img","width":1511,"height":356},{
+      "type": "input_num",
+      "param": "use_img",
+      "min": 0,
+      "max": 1,
+      "step": 0.01,
+      "btn_val": 1,
+      "show_input": false,
+      "show_range": false,
+      "show_btn": true,
+      "width": 1511,
+      "height": 20
+    },{"signals":["edge_detect.out","find_chessboard.found"],"type":"scope","time_range":100,"y_max":"1","y_min":"0","width":1511,"height":150},{"signals":["calib.add_corners"],"type":"scope","time_range":100,"y_max":"auto","y_min":"auto","width":1511,"height":150}
+  ],
+  "width": 1511,
+  "height": 919
+}

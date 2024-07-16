@@ -1,0 +1,114 @@
+{
+  "model_is_node": false,
+  "nodes": [
+    {
+      "name": "playback_sync",
+      "type": "class",
+      "cfg": {"class":"playback_sync","prj":"record_playback","filename":"use.arec","dir":"../rec/calib","start_now":true},
+      "pos": {"x":-433,"y":132},
+      "rotate": false,
+      "comment_out": false
+    },{
+      "name": "webcam",
+      "type": "expression",
+      "cfg": {"function":"conv","output_name":"img","output_type":"abmt::img","type_header":"abmt/img.h","disable_output":false},
+      "pos": {"x":0,"y":-75},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"conv":{"node":"playback_async","pin":"out"}},
+      "default_values": {"conv":""}
+    },{
+      "name": "edge_detect",
+      "type": "expression",
+      "cfg": {"function":"conv","output_name":"out","output_type":"double","type_header":"","disable_output":false},
+      "pos": {"x":-16,"y":115},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"conv":{"node":"playback_sync","pin":"out"}},
+      "default_values": {"conv":""}
+    },{
+      "name": "playback_async",
+      "type": "class",
+      "cfg": {"class":"playback_async","prj":"record_playback","filename":"cam.arec","dir":"../rec/calib","start_now":true},
+      "pos": {"x":-433,"y":-60},
+      "rotate": false,
+      "comment_out": false
+    },{
+      "name": "draw_points",
+      "type": "class",
+      "cfg": {"class":"draw_points","prj":"opencv","line_width":"3","color":"{0,255,0}"},
+      "pos": {"x":814,"y":6},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"img":{"node":"webcam","pin":"img"}},
+      "default_values": {"point_list":"","img":""}
+    },{
+      "name": "calib",
+      "type": "class",
+      "cfg": {
+        "class": "calib",
+        "prj": "opencv",
+        "chess_n_elems_x": "8",
+        "chess_n_elems_y": "6",
+        "chess_elem_len": "0.025",
+        "new_method": true,
+        "cam_json": "../cam.json",
+        "cam_json_undistort": "../cam_undist.json",
+        "undist_alpha": "0"
+      },
+      "pos": {"x":800,"y":-174},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {
+        "points_img": {"node":"find_chessboard","pin":"corners_img"},
+        "points_obj": {"node":"find_chessboard","pin":"corners_obj"},
+        "add_corners": {"node":"rt","pin":"out"},
+        "img": {"node":"webcam","pin":"img"}
+      },
+      "default_values": {"points_img":"","points_obj":"","add_corners":"true","img":""}
+    },{
+      "name": "rt",
+      "type": "base",
+      "cfg": {"node":"rt","data_type":"double","start_value":0,"type_header":"","behavior":"last"},
+      "pos": {"x":285,"y":149},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"in":{"node":"edge_detect","pin":"out"}},
+      "default_values": {"in":""}
+    },{
+      "name": "counter",
+      "type": "class",
+      "cfg": {"class":"counter","prj":"math","start":"0","end":"30","step":"1","auto_restart":true},
+      "pos": {"x":-62,"y":-298},
+      "rotate": false,
+      "comment_out": false
+    },{
+      "name": "expression",
+      "type": "expression",
+      "cfg": {"function":"a == 0","output_name":"out","output_type":"auto","type_header":"","disable_output":false},
+      "pos": {"x":436,"y":-317},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"a":{"node":"counter","pin":"out"}},
+      "default_values": {"a":""}
+    },{
+      "name": "find_chessboard",
+      "type": "class",
+      "cfg": {
+        "class": "find_chessboard",
+        "prj": "opencv",
+        "rows": "8",
+        "cols": "6",
+        "chess_n_elems_x": "8",
+        "chess_n_elems_y": "6",
+        "sub_pix_size": "11",
+        "chess_elem_len": "0.025"
+      },
+      "pos": {"x":290,"y":-183},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"img":{"node":"webcam","pin":"img"}},
+      "default_values": {"img":""}
+    }
+  ]
+}
