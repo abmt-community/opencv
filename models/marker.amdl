@@ -1,0 +1,92 @@
+{
+  "model_is_node": false,
+  "nodes": [
+    {
+      "name": "webcam",
+      "type": "class",
+      "cfg": {"class":"webcam","prj":"io","device":"/dev/video0","fmt_jpeg":false,"width":"640","height":"480","half_framerate":false},
+      "pos": {"x":-645,"y":-108},
+      "rotate": false,
+      "comment_out": false
+    },{
+      "name": "undistort",
+      "type": "class",
+      "cfg": {"class":"undistort","prj":"opencv","cam_json":"../cam.json","cam_json_new":"../cam_undist.json"},
+      "pos": {"x":-79,"y":-106},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"in_img":{"node":"to_rgb","pin":"img"}},
+      "default_values": {"in_img":""}
+    },{
+      "name": "to_rgb",
+      "type": "expression",
+      "cfg": {"function":"conv","output_name":"img","output_type":"abmt::img_rgb","type_header":"abmt/img.h","disable_output":false},
+      "pos": {"x":-327,"y":-124},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"conv":{"node":"webcam","pin":"img"}},
+      "default_values": {"conv":""}
+    },{
+      "name": "detect_markers",
+      "type": "class",
+      "cfg": {"class":"detect_markers","prj":"opencv","cam":"{\"../cam_undist.json\"}","type":"cv::aruco::DICT_4X4_50"},
+      "pos": {"x":242,"y":-107},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"img":{"node":"undistort","pin":"out_img"}},
+      "default_values": {"img":""}
+    },{
+      "name": "solve_pnp",
+      "type": "class",
+      "cfg": {"class":"solve_pnp","prj":"opencv","cam":"{\"../cam_undist.json\"}"},
+      "pos": {"x":1139,"y":66},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"points_img":{"node":"expression","pin":"out"},"points_obj":{"node":"marker_points","pin":"out"}},
+      "default_values": {"points_img":"","points_obj":""}
+    },{
+      "name": "expression",
+      "type": "expression",
+      "cfg": {"function":"a[0] ","output_name":"out","output_type":"std::vector<abmt::vec2>","type_header":"","disable_output":false},
+      "pos": {"x":669,"y":-104},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"a":{"node":"detect_markers","pin":"corners"}},
+      "default_values": {"a":""}
+    },{
+      "name": "marker_points",
+      "type": "class",
+      "cfg": {"class":"marker_points","prj":"opencv","border_len":"0.06"},
+      "pos": {"x":260,"y":75},
+      "rotate": false,
+      "comment_out": false
+    },{
+      "name": "log_str",
+      "type": "class",
+      "cfg": {"class":"log_str","prj":"utils","prefix":"dist: "},
+      "pos": {"x":2076,"y":94},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"str":{"node":"to_string","pin":"out"}},
+      "default_values": {"str":""}
+    },{
+      "name": "expression_1",
+      "type": "expression",
+      "cfg": {"function":"a.len()","output_name":"out","output_type":"auto","type_header":"","disable_output":false},
+      "pos": {"x":1513,"y":73},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"a":{"node":"solve_pnp","pin":"tvec"}},
+      "default_values": {"a":""}
+    },{
+      "name": "to_string",
+      "type": "class",
+      "cfg": {"class":"to_string","prj":"utils"},
+      "pos": {"x":1788,"y":94},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"in":{"node":"expression_1","pin":"out"}},
+      "default_values": {"in":""}
+    }
+  ]
+}

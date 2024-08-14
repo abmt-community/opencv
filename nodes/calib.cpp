@@ -130,7 +130,6 @@ void find_chessboard::tick(){
 
 void undistort::init(){
     cam = calib_data(param_cam_json);
-    abmt::log("cam: " + cam.to_json().dump_compact());
     cam_undist = calib_data(param_cam_json_new);
 }
 
@@ -152,7 +151,7 @@ void solve_pnp::tick(){
         cv::solvePnP(a2c(in_points_obj), a2c(in_points_img), param_cam.mat, param_cam.dist, rvec, tvec );
         c2a(rvec, out_rvec);
         c2a(tvec, out_tvec);
-        abmt::log("found: " + to_string(out_tvec[0]) + " " + to_string(out_tvec[1]) + " " + to_string(out_tvec[2]));
+        //abmt::log("found: " + to_string(out_tvec[0]) + " " + to_string(out_tvec[1]) + " " + to_string(out_tvec[2]));
         
         mat3 ma;
         Mat mc = cv::Mat::eye(3, 3, CV_64F);
