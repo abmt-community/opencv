@@ -7,11 +7,9 @@ using namespace std;
 using namespace opencv;
 
 void detect_markers::init(){
-   
     cv::aruco::DetectorParameters detectorParams = cv::aruco::DetectorParameters();
     cv::aruco::Dictionary dictionary = cv::aruco::getPredefinedDictionary(param_type);
     detector = cv::aruco::ArucoDetector(dictionary, detectorParams);
-    
 }
 
 void detect_markers::tick(){
@@ -26,7 +24,7 @@ void detect_markers::tick(){
         }
         out_corners.push_back(corners);
     }
-    abmt::log("found markers: " + std::to_string(out_ids.size()));
+    
     if( out_ids.size() > 0 ){
         //abmt::log("id: " + std::to_string(out_ids[0]));
     }else{
@@ -38,8 +36,9 @@ void detect_markers::tick(){
 
 
 void marker_points::init(){
+    // clockwise
     out.push_back({0,0,0});
     out.push_back({param_border_len,0,0});
-    out.push_back({0,param_border_len,0});
     out.push_back({param_border_len,param_border_len,0});
+    out.push_back({0,param_border_len,0});
 }

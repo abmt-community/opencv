@@ -1,7 +1,14 @@
 {
   "type": "list",
   "elements": [
-    {"type":"image","scale":true,"signal":"draw_points.img","width":1511,"height":356},{
+    {
+      "type": "list_hz",
+      "elements": [
+        {"type":"image","scale":true,"signal":"webcam.img","width":672,"height":318},{"type":"image","scale":true,"signal":"draw_points.img","width":681,"height":318}
+      ],
+      "width": 1511,
+      "height": 318
+    },{
       "type": "input_num",
       "param": "use_img",
       "min": 0,

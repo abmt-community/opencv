@@ -1,0 +1,15 @@
+{
+  "type": "list",
+  "elements": [
+    {
+      "type": "list_hz",
+      "elements": [
+        {"type":"image","scale":true,"signal":"webcam.img","width":584,"height":416},{"type":"image","scale":true,"signal":"draw_frame_axis.out_img","width":825.4064750797413,"height":416}
+      ],
+      "width": 1511,
+      "height": 416
+    }
+  ],
+  "width": 1511,
+  "height": 919
+}

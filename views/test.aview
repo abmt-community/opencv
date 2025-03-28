@@ -7,17 +7,17 @@
       "enable_fxaa": false,
       "cam": "{\"px\":-1.571,\"py\":3.042,\"pz\":2.547,\"tx\":-1.781,\"ty\":0,\"tz\":-1.215}",
       "signal": "sc.out",
-      "width": 1511,
+      "width": 1519,
       "height": 564
     },{
       "type": "list_hz",
       "elements": [
-        {"type":"image","scale":true,"signal":"test.img","width":518.5320708613316,"height":410},{"type":"image","scale":true,"signal":"draw_frame_axis.out_img","width":566.4679291386683,"height":410}
+        {"type":"image","scale":true,"signal":"test.img","width":464.3556406221088,"height":410},{"type":"image","scale":true,"signal":"draw_frame_axis.out_img","width":475.4515827917515,"height":410},{"type":"image","scale":true,"signal":"resize.out","width":292.5293886636084,"height":410},{"type":"image","scale":true,"signal":"resize_1.out","width":276.6633879225313,"height":410}
       ],
-      "width": 1511,
+      "width": 1519,
       "height": 410
     }
   ],
-  "width": 1511,
+  "width": 1519,
   "height": 984
 }

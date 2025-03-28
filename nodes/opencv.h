@@ -66,6 +66,17 @@ struct hough_lines {
     void tick();
 };
 
+//@node: auto
+//@raster: auto
+struct resize{
+    abmt::img_rgb in;
+    abmt::img_rgb out;
+    size_t param_width = 640;
+    size_t param_height = 480;
+    bool param_keep_aspect_ratio = true;
+    void tick();
+};
+
 
 } // namespace bus
 

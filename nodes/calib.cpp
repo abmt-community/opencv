@@ -147,20 +147,16 @@ void solve_pnp::tick(){
     if(in_points_img.size() >= 4){
         Mat rvec;
         Mat tvec;
-        //cv::solvePnP(a2c(in_points_obj), a2c(in_points_img), param_cam.mat, param_cam.dist, rvec, tvec, false, cv::SOLVEPNP_IPPE );
+        
         cv::solvePnP(a2c(in_points_obj), a2c(in_points_img), param_cam.mat, param_cam.dist, rvec, tvec );
         c2a(rvec, out_rvec);
         c2a(tvec, out_tvec);
-        //abmt::log("found: " + to_string(out_tvec[0]) + " " + to_string(out_tvec[1]) + " " + to_string(out_tvec[2]));
-        
+         
         mat3 ma;
         Mat mc = cv::Mat::eye(3, 3, CV_64F);
         cv::Rodrigues(rvec, mc);
         c2a(mc, ma);
-        out_pose = ma;
-        out_pose.x = out_tvec.x;
-        out_pose.y = out_tvec.y;
-        out_pose.z = out_tvec.z;
+        out_pose = abmt::pose(ma, out_tvec);
     }
 }
 

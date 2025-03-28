@@ -2,5 +2,16 @@
   "model": "calib_rec",
   "runtime": "live",
   "runtime_configs": {
+    "live": {
+      "cpp_flags": "-std=c++17",
+      "ld_flags": "",
+      "inc_path": [
+        "/usr/include/opencv4"
+      ],
+      "ld_path": [
+      ],
+      "libs": [
+      ]
+    }
   }
 }

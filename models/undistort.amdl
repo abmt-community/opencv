@@ -4,7 +4,7 @@
     {
       "name": "webcam",
       "type": "class",
-      "cfg": {"class":"webcam","prj":"io","device":"/dev/video4","fmt_jpeg":false,"width":"640","height":"480","half_framerate":false},
+      "cfg": {"class":"webcam","prj":"io","device":"/dev/video0","fmt_jpeg":false,"width":"640","height":"480","half_framerate":false},
       "pos": {"x":-690,"y":-228},
       "rotate": false,
       "comment_out": false

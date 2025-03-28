@@ -29,7 +29,7 @@
     },{
       "name": "detect_markers",
       "type": "class",
-      "cfg": {"class":"detect_markers","prj":"opencv","cam":"{\"../cam_undist.json\"}","type":"cv::aruco::DICT_4X4_50"},
+      "cfg": {"class":"detect_markers","prj":"opencv","cam":"{\"../cam_undist.json\"}","type":"cv::aruco::DICT_4X4_50","log_num_found_markers":true},
       "pos": {"x":242,"y":-107},
       "rotate": false,
       "comment_out": false,
@@ -39,7 +39,7 @@
       "name": "solve_pnp",
       "type": "class",
       "cfg": {"class":"solve_pnp","prj":"opencv","cam":"{\"../cam_undist.json\"}"},
-      "pos": {"x":1139,"y":66},
+      "pos": {"x":918,"y":-88},
       "rotate": false,
       "comment_out": false,
       "inputs": {"points_img":{"node":"expression","pin":"out"},"points_obj":{"node":"marker_points","pin":"out"}},
@@ -61,10 +61,10 @@
       "rotate": false,
       "comment_out": false
     },{
-      "name": "log_str",
+      "name": "log",
       "type": "class",
-      "cfg": {"class":"log_str","prj":"utils","prefix":"dist: "},
-      "pos": {"x":2076,"y":94},
+      "cfg": {"class":"log","prj":"utils","prefix":"dist: "},
+      "pos": {"x":1855,"y":-61},
       "rotate": false,
       "comment_out": false,
       "inputs": {"str":{"node":"to_string","pin":"out"}},
@@ -73,7 +73,7 @@
       "name": "expression_1",
       "type": "expression",
       "cfg": {"function":"a.len()","output_name":"out","output_type":"auto","type_header":"","disable_output":false},
-      "pos": {"x":1513,"y":73},
+      "pos": {"x":1292,"y":-81},
       "rotate": false,
       "comment_out": false,
       "inputs": {"a":{"node":"solve_pnp","pin":"tvec"}},
@@ -82,11 +82,20 @@
       "name": "to_string",
       "type": "class",
       "cfg": {"class":"to_string","prj":"utils"},
-      "pos": {"x":1788,"y":94},
+      "pos": {"x":1567,"y":-61},
       "rotate": false,
       "comment_out": false,
       "inputs": {"in":{"node":"expression_1","pin":"out"}},
       "default_values": {"in":""}
+    },{
+      "name": "draw_frame_axis",
+      "type": "class",
+      "cfg": {"class":"draw_frame_axis","prj":"opencv","cam":"{\"../cam_undist.json\"}","len":"0.06","thickness":"2"},
+      "pos": {"x":1360,"y":98},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"rvec":{"node":"solve_pnp","pin":"rvec"},"tvec":{"node":"solve_pnp","pin":"tvec"},"in_img":{"node":"undistort","pin":"out_img"}},
+      "default_values": {"rvec":"","tvec":"","in_img":""}
     }
   ]
 }

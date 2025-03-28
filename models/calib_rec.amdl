@@ -18,7 +18,7 @@
     },{
       "name": "record_img",
       "type": "class",
-      "cfg": {"class":"record","prj":"record_playback","filename":"cam.arec","dir":"../rec/calib2"},
+      "cfg": {"class":"record","prj":"record_playback","filename":"cam.arec","dir":"../rec/calib"},
       "pos": {"x":314,"y":-228},
       "rotate": false,
       "comment_out": false,
@@ -27,7 +27,7 @@
     },{
       "name": "record_use",
       "type": "class",
-      "cfg": {"class":"record","prj":"record_playback","filename":"use.arec","dir":"../rec/calib2"},
+      "cfg": {"class":"record","prj":"record_playback","filename":"use.arec","dir":"../rec/calib"},
       "pos": {"x":315,"y":-31},
       "rotate": false,
       "comment_out": false,
@@ -43,6 +43,24 @@
       "comment_out": false,
       "inputs": {"in":{"node":"use_img","pin":"value"}},
       "default_values": {"in":"0"}
+    },{
+      "name": "find_chessboard",
+      "type": "class",
+      "cfg": {
+        "class": "find_chessboard",
+        "prj": "opencv",
+        "rows": "8",
+        "cols": "6",
+        "chess_n_elems_x": "8",
+        "chess_n_elems_y": "6",
+        "sub_pix_size": "11",
+        "chess_elem_len": "0.025"
+      },
+      "pos": {"x":-151,"y":-461},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"img":{"node":"webcam","pin":"img"}},
+      "default_values": {"img":""}
     }
   ]
 }

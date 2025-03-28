@@ -4,7 +4,7 @@
     {
       "name": "webcam",
       "type": "class",
-      "cfg": {"class":"webcam","prj":"io","device":"/dev/video4","fmt_jpeg":false,"width":"640","height":"480","half_framerate":false},
+      "cfg": {"class":"webcam","prj":"io","device":"/dev/video0","fmt_jpeg":false,"width":"640","height":"480","half_framerate":false},
       "pos": {"x":-1027,"y":226},
       "rotate": false,
       "comment_out": false
@@ -15,7 +15,7 @@
       "pos": {"x":1428,"y":-508},
       "rotate": false,
       "comment_out": false,
-      "inputs": {"a":{"node":"axis","pin":"sc"},"b":{"node":"inverse_pose","pin":"out"}},
+      "inputs": {"a":{"node":"axis","pin":"sc"},"b":{"node":"expression","pin":"out"}},
       "default_values": {"a":"","b":""}
     },{
       "name": "comp",
@@ -122,22 +122,13 @@
       "inputs": {"img":{"node":"undistort","pin":"out_img"}},
       "default_values": {"img":""}
     },{
-      "name": "world_2_img",
-      "type": "class",
-      "cfg": {"class":"world_2_img","prj":"opencv","cam":"{\"../cam_undist.json\"}"},
-      "pos": {"x":799,"y":718},
-      "rotate": false,
-      "comment_out": false,
-      "inputs": {"world":{"node":"solve_pnp","pin":"pose"}},
-      "default_values": {"in":"{0.175, 0.125, 0}","world":""}
-    },{
       "name": "test",
       "type": "expression",
       "cfg": {"function":"img.draw_cross(v, {255,0,0}, 3)","output_name":"out","output_type":"auto","type_header":"","disable_output":true},
       "pos": {"x":1463,"y":610},
       "rotate": false,
       "comment_out": false,
-      "inputs": {"img":{"node":"to_rgb_1","pin":"img_rgb"},"v":{"node":"world_2_img","pin":"out"}},
+      "inputs": {"img":{"node":"to_rgb_1","pin":"img_rgb"},"v":{"node":"world2img","pin":"out"}},
       "default_values": {"img":"","v":""}
     },{
       "name": "to_rgb_1",
@@ -148,15 +139,6 @@
       "comment_out": false,
       "inputs": {"img":{"node":"undistort","pin":"out_img"}},
       "default_values": {"img":""}
-    },{
-      "name": "inverse_pose",
-      "type": "class",
-      "cfg": {"class":"inverse_pose","prj":"opencv"},
-      "pos": {"x":742,"y":-436},
-      "rotate": false,
-      "comment_out": false,
-      "inputs": {"in":{"node":"solve_pnp","pin":"pose"}},
-      "default_values": {"in":""}
     },{
       "name": "test_1",
       "type": "expression",
@@ -173,8 +155,26 @@
       "pos": {"x":1455,"y":141},
       "rotate": false,
       "comment_out": false,
-      "inputs": {"w2c":{"node":"solve_pnp","pin":"pose"},"c2w":{"node":"inverse_pose","pin":"out"}},
+      "inputs": {"w2c":{"node":"solve_pnp","pin":"pose"},"c2w":{"node":"expression","pin":"out"}},
       "default_values": {"in":"{320,240}","w2c":"","c2w":""}
+    },{
+      "name": "expression",
+      "type": "expression",
+      "cfg": {"function":"p.inverse()","output_name":"out","output_type":"auto","type_header":"","disable_output":false},
+      "pos": {"x":732,"y":-326},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"p":{"node":"solve_pnp","pin":"pose"}},
+      "default_values": {"p":""}
+    },{
+      "name": "world2img",
+      "type": "class",
+      "cfg": {"class":"world2img","prj":"opencv","cam":"{\"../cam_undist.json\"}"},
+      "pos": {"x":909,"y":724},
+      "rotate": false,
+      "comment_out": false,
+      "inputs": {"world":{"node":"solve_pnp","pin":"pose"}},
+      "default_values": {"in":"{0,0,0}","world":""}
     }
   ]
 }

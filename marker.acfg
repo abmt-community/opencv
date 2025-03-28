@@ -13,7 +13,8 @@
       ],
       "libs": [
         "opencv_features2d",
-        "opencv_flann"
+        "opencv_flann",
+        "libopencv_dnn"
       ]
     }
   }

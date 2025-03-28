@@ -100,7 +100,6 @@ cv::Mat opencv::img2mat(abmt::img& img){
     Mat res;
     if(img.type == abmt::image_type::RGB8){
         res = Mat(Size(img.width, img.height), CV_8UC3, img.data.data, Mat::AUTO_STEP);
-        //cvtColor(Mat(Size(img.width, img.height), CV_8UC3, img.data.data, Mat::AUTO_STEP), res, cv::COLOR_RGB2BGR);
     }else if(img.type == abmt::image_type::RGBA8){
         cvtColor(Mat(Size(img.width, img.height), CV_8UC4, img.data.data, Mat::AUTO_STEP), res, cv::COLOR_RGBA2BGRA);
     }else if(img.type == abmt::image_type::GRAY8){
@@ -169,6 +168,36 @@ void hough_lines::tick(){
             abmt::vec2 p2 = {(double)l[2], (double)l[3]};
             out.push_back({ p1, p2});
        }
+    }catch(...){
+    	// open cv will print an errormessage
+    }
+}
+
+void resize::tick(){
+    try{
+        abmt::img_rgb input = in;
+        double sf_x = (double)param_width/in.width;
+        double sf_y = (double)param_height/in.height;
+        double ratio = (double)param_width/param_height;
+        if(sf_x > sf_y){
+            size_t crop_height = (double)param_height/sf_x + 0.5;
+            if(crop_height < in.height && param_keep_aspect_ratio){
+                size_t delta = (double)(in.height-crop_height)/2;
+                input = in.roi(0,delta,in.width,crop_height).copy();
+            }
+        }else{
+            size_t crop_width = (double)param_width/sf_y + 0.5;
+            if(crop_width < in.width && param_keep_aspect_ratio){
+                size_t delta = (double)(in.width-crop_width)/2;
+                input = in.roi(delta,0,crop_width,in.height).copy();
+            }
+        }
+        
+        Mat in_cv  = img2mat(input);
+        out = in; // copy type and datapointer
+        out.realloc(param_width, param_height); // realloc data with new size and keep type
+        Mat out_cv = img2mat(out);
+        cv::resize(in_cv, out_cv, cv::Size(param_width, param_height));
     }catch(...){
     	// open cv will print an errormessage
     }
